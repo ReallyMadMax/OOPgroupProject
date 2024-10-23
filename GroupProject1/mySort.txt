@@ -1,0 +1,7 @@
+For our 5th sorting algorithm we decided to use HeapSort. The main deciding factor to use this one is that it is quite different than the other algorithms that we had previously implemented. It can also be faster than quick sort in certain conditions. It's complexity is O(n log n) on both average and worse case scenarios. 
+
+How does HeapSort work? It uses trees to split the values in the array, similar to binary search. It then converts the values into "Heaps" and puts the largest value into the end of the array. It then reheaps all of the values and continue in this cycle until it is sorted. A "Heap" is a tree where the parent is always larger than or equal to its children. after the largest value is moved to the top of the heap, it is then swapped to the last position in the array.
+
+"Heapifying" is the term used to re-heap the tree to ensure that the largest value is on top of the tree. Because of the requirements for this project we will be putting the smallest value of the tree ontop, to ensure that the array ends up being sorted largest to smallest. 
+
+Another benefit this sorting method has over it's siblings is that it uses the origional array and does not need to copy the values at all. This makes is a good choice for large amounts of data that need to be sorted. 
