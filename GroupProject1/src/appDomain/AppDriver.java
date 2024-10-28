@@ -3,186 +3,360 @@ package appDomain;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AppDriver
-{
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import shapes.Cone;
+import shapes.Cylinder;
+import shapes.OctagonalPrism;
+import shapes.PentagonalPrism;
+import shapes.Pyramid;
+import shapes.Shape;
+import shapes.SquarePrism;
+import shapes.TriangularPrism;
 
-	public static Integer[] BubbleSort(Integer[] list) {
-		boolean sorted = false;
-		int tmp;
-	
-		while (!sorted) {
-			sorted = true;
-			for (int i = 1; i < list.length; i++) {
-				if (list[i-1] < list[i]) {
-					tmp = list[i-1];
-					list[i-1] = list[i];
-					list[i] = tmp;
-					sorted = false;
-				}
+public class AppDriver {
+
+	static File shapesFile = new File(
+			"C:\\CPRG304\\assignment1StartingCode\\assignment1StartingCode\\res\\shapes1.txt");
+	static File shapesFile2 = new File(
+			"C:\\CPRG304\\assignment1StartingCode\\assignment1StartingCode\\res\\shapes2.txt");
+	static File shapesFile3 = new File(
+			"C:\\CPRG304\\assignment1StartingCode\\assignment1StartingCode\\res\\shapes3.txt");
+
+	// Method to print by the volume
+	public static void printByVolume(Shape[] shapes) {
+		System.out.println("First element is: " + shapes[0].getName() + " has a Volume of: " + shapes[0].calcVolume());
+
+		for (int i = 1000; i < shapes.length; i += 1000) {
+			System.out.println(
+					i + "-th element is: " + shapes[i].getName() + " has a Volume of: " + shapes[i].calcVolume());
+		}
+
+		System.out.println("Last element is: " + shapes[shapes.length - 1].getName() + " has a Volume of: "
+				+ shapes[shapes.length - 1].calcVolume());
+	}
+
+	// Method to print by the height
+	public static void printByHeight(Shape[] shapes) {
+		System.out.println("First element is: " + shapes[0].getName() + " has a Height of: " + shapes[0].height);
+
+		for (int i = 1000; i < shapes.length; i += 1000) {
+			System.out.println(i + "-th element is: " + shapes[i].getName() + " has a Height of: " + shapes[i].height);
+		}
+
+		System.out.println("Last element is: " + shapes[shapes.length - 1].getName() + " has a Height of: "
+				+ shapes[shapes.length - 1].height);
+	}
+
+	// Method to print by base area
+	public static void printByBaseArea(Shape[] shapes) {
+		System.out.println(
+				"First element is: " + shapes[0].getName() + " has a Base Area of: " + shapes[0].calcBaseArea());
+
+		for (int i = 1000; i < shapes.length; i += 1000) {
+			System.out.println(
+					i + "-th element is: " + shapes[i].getName() + " has a Base Area of: " + shapes[i].calcBaseArea());
+		}
+
+		System.out.println("Last element is: " + shapes[shapes.length - 1].getName() + " has a Base Area of: "
+				+ shapes[shapes.length - 1].calcBaseArea());
+	}
+
+	public static void main(String[] args) throws FileNotFoundException {
+
+		// Variables are being assigned null as placeholders for the arguments
+		String fileToRead = null;
+		String sortCriteria = null;
+		String sortType = null;
+
+		// looping through all of the command line arguments
+		for (String argument : args) {
+			// If argument starts with "-f" (fileName)
+			if (argument.toLowerCase().startsWith("-f")) {
+				// Get the file name
+				fileToRead = argument.substring(2);
 			}
-		}
-		return list;
-	}
-
-	public static Integer[] InsertionSort(Integer[] list) {
-		ArrayList<Integer> sortedArray = new ArrayList<Integer>();
-		boolean added = false;
-	
-		for (int num : list) {
-			added = false;
-			if (sortedArray.isEmpty()) {
-				sortedArray.add(num);
-			} else {
-				for (int i = 0; i < sortedArray.size(); i++) {
-					if (num > sortedArray.get(i)) {
-						sortedArray.add(i, num);
-						added = true;
-						break;
-					}
-				}
-				if (!added) {
-					sortedArray.add(num);
-				}
+			// If argument starts with "-t" (Sorting Criteria)
+			if (argument.toLowerCase().startsWith("-t")) {
+				// Get the sorting criteria
+				sortCriteria = argument.substring(2);
 			}
-		}
-		return sortedArray.toArray(new Integer[0]);
-	}
-
-	public static Integer[] SelectionSort(Integer[] list) {
-		int largest;
-		int tmp;
-	
-		for (int i = 0; i < list.length; i++) {
-			tmp = list[i];
-			largest = i;
-			for (int j = i + 1; j < list.length; j++) {
-				if (list[j] > list[largest]) {
-					largest = j;
-				}
+			// If argument starts with "-s" (Sorting Type)
+			if (argument.toLowerCase().startsWith("-s")) {
+				// Get the sorting type
+				sortType = argument.substring(2);
 			}
-			list[i] = list[largest];
-			list[largest] = tmp;
-		}
-		return list;
-	}
 
-	public static boolean Sorted(Integer[] list) {
-		if (list.length == 1){
-			return true;
+			// This for loop allows for the user to input arguments in any order
 		}
 
-		for (int i = 0; i < list.length - 1; i++) {
-			if (list[i] > list[i + 1]) {
-				return false;
-			}
+		// Check if arguments are null or empty
+		if (sortCriteria == null || sortCriteria.isEmpty() || sortType == null || sortType.isEmpty()) {
+			System.out.println("One of the following arguments is empty."); // Add usefull error message
+			System.out.println("Proper Format = -f <fileName> -t <sortingCriteria> -s ");
+			return;
 		}
-		return true;
-	}
-
-	public static Integer[] quickSort(Integer[] list) {
-		if (list.length <= 1) {
-			return list;
-		}
-	
-		int pivotPos = list.length / 2;
-		int pivotNum = list[pivotPos];
-		Integer[] smallerValues = new Integer[list.length];
-		Integer[] equalValues = new Integer[list.length];
-		Integer[] largerValues = new Integer[list.length];
-		int smallerCount = 0, equalCount = 0, largerCount = 0;
-	
-		for (int num : list) {
-			if (num > pivotNum) {
-				smallerValues[smallerCount++] = num;
-			} else if (num == pivotNum) {
-				equalValues[equalCount++] = num;
-			} else {
-				largerValues[largerCount++] = num;
-			}
-		}
-	
-		smallerValues = quickSort(Arrays.copyOf(smallerValues, smallerCount));
-		largerValues = quickSort(Arrays.copyOf(largerValues, largerCount));
-	
-		System.arraycopy(smallerValues, 0, list, 0, smallerCount);
-		System.arraycopy(equalValues, 0, list, smallerCount, equalCount);
-		System.arraycopy(largerValues, 0, list, smallerCount + equalCount, largerCount);
-	
-		return list;
-	}
-	
-	public static Integer[] heapSort(Integer[] list) {
-		int len = list.length;
-		
-		// order heap once. len / 2 - 1 is the first guranteed non childless element
-		for (int i = len / 2 - 1; i >= 0; i--) {
-			heapify(list, i, len);
-		}
-
-		for (int i = len - 1; i > 0; i--) {
-			//this swaps the largest value to the end of the list before beginning again
-			int tmp = list[0];
-			list[0] = list[i];
-			list[i] = tmp;
-			
-			// Call heapify on reduced list
-			heapify(list, 0, i);
-		}
-		
-		return list;
-	}
-
-	/* the tree is definied by head = i, left child = i*2+1 and right child = i*2+2 
-	 * head needs to be the largest of the three values by the time this is done
-	 * heap size is similar to arraysize, it gets smaller as the sorted values are stored at
-	 * end of the array. 
-	*/
-	public static void heapify(Integer[] list, int head, int heap_size) {
-		System.out.println(Arrays.toString(list));
-		int smallest = head;
-		int l = 2 * head + 1;  // Left child
-		int r = 2 * head + 2;  // Right child
-		
-		if (l < heap_size && list[l] < list[smallest])
-        	smallest = l;
-    
-		if (r < heap_size && list[r] < list[smallest])
-			smallest = r;
-		
-		
-		if (smallest != head) {
-			// Swap values
-			int tmp = list[head];
-			list[head] = list[smallest];
-			list[smallest] = tmp;
-			
-			// Recursively heapify the affected sub-tree
-			heapify(list, smallest, heap_size);
-		}
-	}
-
-	public static void main( String[] args )
-	{
-		// TODO Auto-generated method stub
 
 		// refer to demo001 BasicFileIO.java for a simple example on how to
 		// read data from a text file
+		File file = new File(fileToRead);
+		Scanner scanner = new Scanner(file);
 
-		// refer to demo01 Test.java for an example on how to parse command
-		// line arguments and benchmarking tests
+		String listSizeString = scanner.next();
+		// Have to convert listsize to a string
+		int listSize = Integer.parseInt(listSizeString);
+		Shape[] shapes = new Shape[listSize];
 
-		// refer to demo02 Student.java for comparable implementation, and
-		// NameCompare.java or GradeCompare for comparator implementations
+		// Since arrays are a fixed size upon creation and cannot be changed
+		// We have to specify at what index we are inserting the object
+		int index = 0;
+		while (scanner.hasNextLine()) {
 
-		// refer to demo02 KittySort.java on how to use a custom sorting
-		// algorithm on a list of comparables to sort using either the
-		// natural order (comparable) or other orders (comparators)
+			String line = scanner.nextLine();
+			String[] parts = line.split(" ");
+			String shapeType = parts[0];
 
-		// refer to demo03 OfficeManager.java on how to create specific
-		// objects using reflection from a String
+			switch (shapeType) {
+				case "Cone":
+					// New Instance of Cone
+					Cone cone = new Cone(
+							// Indicating type of shape
+							shapeType,
+							Double.parseDouble(parts[1]),
+							Double.parseDouble(parts[2]));
+					// Assigns to array @ index
+					shapes[index] = cone;
+					// Moves to next in the index
+					index++;
+					break;
 
-		Integer[] tmpList = {1,5,1,6,7,2,2,34,2,432,43,2,1,7,675,0,345,3,2,4,5,3,234,2,111};
+				case "Cylinder":
+					// New Instance of Cylinder
+					Cylinder cylinder = new Cylinder(
+							shapeType,
+							Double.parseDouble(parts[1]),
+							Double.parseDouble(parts[2]));
+					// Assigns to array @ index
+					shapes[index] = cylinder;
+					// Moves to next in the index
+					index++;
+					break;
+				case "OctagonalPrism":
+					// New instance of Octagonal Prism
+					OctagonalPrism octagonalPrism = new OctagonalPrism(
+							shapeType,
+							Double.parseDouble(parts[1]),
+							Double.parseDouble(parts[2]));
+					// Assigns to array @ index
+					shapes[index] = octagonalPrism;
+					// Moves to next in the index
+					index++;
+					break;
+				case "PentagonalPrism":
+					// New instance of Pentagonal Prism
+					PentagonalPrism pentagonalPrism = new PentagonalPrism(
+							shapeType,
+							Double.parseDouble(parts[1]),
+							Double.parseDouble(parts[2]));
+					// Assigns to array @ index
+					shapes[index] = pentagonalPrism;
+					// Moves to the next in the index
+					index++;
+					break;
+				case "Pyramid":
+					// New Instance of Pyramid
+					Pyramid pyramid = new Pyramid(
+							shapeType,
+							Double.parseDouble(parts[1]),
+							Double.parseDouble(parts[2]));
+					// Assigns to array @ index
+					shapes[index] = pyramid;
+					// Moves to the next in the index
+					index++;
+					break;
+				case "SquarePrism":
+					// New instance of Square Prism
+					SquarePrism squarePrism = new SquarePrism(
+							shapeType,
+							Double.parseDouble(parts[1]),
+							Double.parseDouble(parts[2]));
+					// Assign to array @ index
+					shapes[index] = squarePrism;
+					// Moves to the next index
+					index++;
+					break;
+				case "TriangularPrism":
+					// New Instance of Triangular Prism
+					TriangularPrism triangularPrism = new TriangularPrism(
+							shapeType,
+							Double.parseDouble(parts[1]),
+							Double.parseDouble(parts[2]));
+					// Assign to array @ index
+					shapes[index] = triangularPrism;
+					// Moves to the next index
+					index++;
+					break;
+			}
+		}
 
-		heapSort(tmpList);
+		scanner.close();
+
+		// Nested Switch case to allow arguments to sort by the criteria
+		// and to sort by the type.
+		// Using toLowerCase because we are only comparing prefixes and
+		// not entire string statements
+		switch (sortCriteria.toLowerCase()) {
+			case "v": // Sorting by volume
+				switch (sortType.toLowerCase()) {
+					case "b": // Bubble sorting
+						long startTimeBubble = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeBubble = System.currentTimeMillis();
+						System.out.println("Bubble Sort took: " + (endTimeBubble - startTimeBubble) + " ms");
+						break;
+					case "s": // Selection sorting
+						long startTimeSorting = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeSorting = System.currentTimeMillis();
+						System.out.println("Selection Sort took: " + (endTimeSorting - startTimeSorting) + " ms");
+						break;
+					case "i": // Insertion sorting
+						long startTimeInsertion = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeInsertion = System.currentTimeMillis();
+						System.out.println("Insertion Sort took: " + (endTimeInsertion - startTimeInsertion) + " ms");
+						break;
+					case "m": // Merge sorting
+						long startTimeMerge = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeMerge = System.currentTimeMillis();
+						System.out.println("Merge Sort took: " + (endTimeMerge - startTimeMerge) + " ms");
+						break;
+					case "q": // Quick sorting
+						long startTimeQuick = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeQuick = System.currentTimeMillis();
+						System.out.println("Quick Sort took: " + (endTimeQuick - startTimeQuick) + " ms");
+						break;
+					case "h": // Heapsort
+						long startTimeHeap = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeHeap = System.currentTimeMillis();
+						System.out.println("Heap Sort took: " + (endTimeHeap - startTimeHeap) + " ms");
+						break;
+					default:
+						System.out.println("Invalid sort type for Volume Sorting.");
+						System.out.println(
+								"Please ensure your command line argument matches one of the expected sorting algorithms.");
+						System.out.println(
+								"<b> Bubble Sort / <s> Selection Sort / <i> Insertion Sort / <m> Merge Sort / <q> Quick Sort / <h> Heapsort");
+						break;
+				}
+				break;
+
+			case "h": // Sorting by height
+				switch (sortType.toLowerCase()) {
+					case "b":
+						long startTimeBubble = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeBubble = System.currentTimeMillis();
+						System.out.println("Bubble Sort took: " + (endTimeBubble - startTimeBubble) + " ms");
+						break;
+					case "s":
+						long startTimeSorting = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeSorting = System.currentTimeMillis();
+						System.out.println("Sorting Sort took: " + (endTimeSorting - startTimeSorting) + " ms");
+						break;
+					case "i":
+						long startTimeInsertion = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeInsertion = System.currentTimeMillis();
+						System.out.println("Insertion Sort took: " + (endTimeInsertion - startTimeInsertion) + " ms");
+						break;
+					case "m":
+						long startTimeMerge = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeMerge = System.currentTimeMillis();
+						System.out.println("Merge Sort took: " + (endTimeMerge - startTimeMerge) + " ms");
+						break;
+					case "q":
+						long startTimeQuick = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeQuick = System.currentTimeMillis();
+						System.out.println("Quick Sort took: " + (endTimeQuick - startTimeQuick) + " ms");
+						break;
+					case "h":
+						long startTimeHeap = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeHeap = System.currentTimeMillis();
+						System.out.println("Heap Sort took: " + (endTimeHeap - startTimeHeap) + " ms");
+						break;
+					default:
+						System.out.println("Invalid sort type for height sorting.");
+						System.out.println(
+								"Please ensure your command line argument matches one of the expected sorting algorithms.");
+						System.out.println(
+								"Options: <b> Bubble Sort / <s> Selection Sort / <i> Insertion Sort / <m> Merge Sort / <q> Quick Sort / <h> Heapsort");
+						break;
+				}
+				break;
+
+			case "a": // Sorting by base area
+				switch (sortType.toLowerCase()) {
+					case "b":
+						long startTimeBubble = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeBubble = System.currentTimeMillis();
+						System.out.println("Bubble Sort took: " + (endTimeBubble - startTimeBubble) + " ms");
+						break;
+					case "s":
+						long startTimeSorting = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeSorting = System.currentTimeMillis();
+						System.out.println("Sorting Sort took: " + (endTimeSorting - startTimeSorting) + " ms");
+						break;
+					case "i":
+						long startTimeInsertion = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeInsertion = System.currentTimeMillis();
+						System.out.println("Insertion Sort took: " + (endTimeInsertion - startTimeInsertion) + " ms");
+						break;
+					case "m":
+						long startTimeMerge = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeMerge = System.currentTimeMillis();
+						System.out.println("Merge Sort took: " + (endTimeMerge - startTimeMerge) + " ms");
+						break;
+					case "q":
+						long startTimeQuick = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeQuick = System.currentTimeMillis();
+						System.out.println("Quick Sort took: " + (endTimeQuick - startTimeQuick) + " ms");
+						break;
+					case "h":
+						long startTimeHeap = System.currentTimeMillis();
+						// Insert sort logic here
+						long endTimeHeap = System.currentTimeMillis();
+						System.out.println("Heap Sort took: " + (endTimeHeap - startTimeHeap) + " ms");
+						break;
+					default:
+						System.out.println("Invalid sort type for base area sorting.");
+						System.out.println(
+								"Please ensure your command line argument matches one of the expected sorting algorithms.");
+						System.out.println(
+								"<b> Bubble Sort / <s> Selection Sort / <i> Insertion Sort / <m> Merge Sort / <q> Quick Sort / <h> Heapsort");
+						break;
+				}
+				break;
+
+			default:
+				System.out.println("Invalid sort criteria.");
+				System.out.println("Make sure that your command line argument matches the expected Sort Criteria");
+				System.out.println("Options are as follows: ");
+				System.out.println("<v> Sort by volume / <h> Sort by height / <a> Sory by base area");
+				break;
+		}
 	}
 }
