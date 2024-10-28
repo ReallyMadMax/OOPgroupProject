@@ -41,14 +41,16 @@
 //     }
 // }
 
-
 package shapes;
 
-public abstract class Shape implements Comparable<Shape>{
+public abstract class Shape implements Comparable<Shape> {
     public String name;
     public double height;
+
     public abstract double calcVolume();
+
     public abstract double calcBaseArea();
+
     public double volume;
 
     public double getHeight() {
@@ -81,14 +83,13 @@ public abstract class Shape implements Comparable<Shape>{
     }
 
     @Override
-        public String toString() {
-            return
-                "Shape: " + name + "\n" +
-                "Height: " + height + "\n";  
+    public String toString() {
+        return "Shape: " + name + "\n" +
+                "Height: " + height + "\n";
     }
-    
+
     @Override
-        public int compareTo(Shape nextShape) {
-            return Double.compare(this.getHeight(), nextShape.getHeight());
-        }
+    public int compareTo(Shape nextShape) {
+        return Double.compare(this.getHeight(), nextShape.getHeight());
     }
+}

@@ -1,6 +1,6 @@
 package shapes;
 
-public class PentagonalPrism extends Shape{
+public class PentagonalPrism extends Shape {
     double side;
 
     public double getSide() {
