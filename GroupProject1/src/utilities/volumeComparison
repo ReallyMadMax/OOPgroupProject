@@ -1,0 +1,13 @@
+
+// public class VolumeComparison implements Comparator<Shape>{
+
+//     @Override
+//     public int compare(Shape shape1, Shape shape2) {
+        
+//         //Base area comparison
+//         // Normally the order would be shape1 compares to shape2
+//         // Since we want to sort in DESCENDING order we reverse there two!
+//         int volumeComp = Double.compare(shape2.calcVolume(), shape1.calcVolume());
+//         return volumeComp;
+//     }
+// }
