@@ -3,6 +3,7 @@ package appDomain;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+
 import shapes.Cone;
 import shapes.Cylinder;
 import shapes.OctagonalPrism;
@@ -11,15 +12,16 @@ import shapes.Pyramid;
 import shapes.Shape;
 import shapes.SquarePrism;
 import shapes.TriangularPrism;
+import utilities.Sorts;
 
 public class AppDriver {
 
 	static File shapesFile = new File(
-			"C:\\CPRG304\\assignment1StartingCode\\assignment1StartingCode\\res\\shapes1.txt");
+			"./files/shapes1.txt");
 	static File shapesFile2 = new File(
-			"C:\\CPRG304\\assignment1StartingCode\\assignment1StartingCode\\res\\shapes2.txt");
+			"./files/shapes2.txt");
 	static File shapesFile3 = new File(
-			"C:\\CPRG304\\assignment1StartingCode\\assignment1StartingCode\\res\\shapes3.txt");
+			"./files/shapes3.txt");
 
 	// Method to print by the volume
 	public static void printByVolume(Shape[] shapes) {
@@ -29,9 +31,13 @@ public class AppDriver {
 			System.out.println(
 					i + "-th element is: " + shapes[i].getName() + " has a Volume of: " + shapes[i].calcVolume());
 		}
+                
+                System.out.println("Second Last element is: " + shapes[shapes.length - 2].getName() + " has a Volume of: "
+				+ shapes[shapes.length - 2].calcVolume());
 
 		System.out.println("Last element is: " + shapes[shapes.length - 1].getName() + " has a Volume of: "
 				+ shapes[shapes.length - 1].calcVolume());
+               
 	}
 
 	// Method to print by the height
@@ -41,9 +47,13 @@ public class AppDriver {
 		for (int i = 1000; i < shapes.length; i += 1000) {
 			System.out.println(i + "-th element is: " + shapes[i].getName() + " has a Height of: " + shapes[i].height);
 		}
+                
+                System.out.println("Second Last element is: " + shapes[shapes.length - 2].getName() + " has a Height of: "
+				+ shapes[shapes.length - 2].height);
 
 		System.out.println("Last element is: " + shapes[shapes.length - 1].getName() + " has a Height of: "
 				+ shapes[shapes.length - 1].height);
+
 	}
 
 	// Method to print by base area
@@ -55,9 +65,13 @@ public class AppDriver {
 			System.out.println(
 					i + "-th element is: " + shapes[i].getName() + " has a Base Area of: " + shapes[i].calcBaseArea());
 		}
+                
+                System.out.println("Second Last element is: " + shapes[shapes.length - 2].getName() + " has a Base Area of: "
+				+ shapes[shapes.length - 2].calcBaseArea());
 
 		System.out.println("Last element is: " + shapes[shapes.length - 1].getName() + " has a Base Area of: "
 				+ shapes[shapes.length - 1].calcBaseArea());
+                
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -97,7 +111,7 @@ public class AppDriver {
 
 		// refer to demo001 BasicFileIO.java for a simple example on how to
 		// read data from a text file
-		File file = new File(fileToRead);
+		File file = new File("src/files/" + fileToRead);
 		Scanner scanner = new Scanner(file);
 
 		String listSizeString = scanner.next();
@@ -208,38 +222,44 @@ public class AppDriver {
 				switch (sortType.toLowerCase()) {
 					case "b": // Bubble sorting
 						long startTimeBubble = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.bubbleSort(shapes, (s1, s2) -> Double.compare(s2.calcVolume(), s1.calcVolume()));
 						long endTimeBubble = System.currentTimeMillis();
+						printByVolume(shapes);
 						System.out.println("Bubble Sort took: " + (endTimeBubble - startTimeBubble) + " ms");
 						break;
 					case "s": // Selection sorting
 						long startTimeSorting = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.SelectionSort(shapes, (s1, s2) -> Double.compare(s2.calcVolume(), s1.calcVolume()));
 						long endTimeSorting = System.currentTimeMillis();
+						printByVolume(shapes);
 						System.out.println("Selection Sort took: " + (endTimeSorting - startTimeSorting) + " ms");
 						break;
 					case "i": // Insertion sorting
 						long startTimeInsertion = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.InsertionSort(shapes, (s1, s2) -> Double.compare(s2.calcVolume(), s1.calcVolume()));
 						long endTimeInsertion = System.currentTimeMillis();
+						printByVolume(shapes);
 						System.out.println("Insertion Sort took: " + (endTimeInsertion - startTimeInsertion) + " ms");
 						break;
 					case "m": // Merge sorting
 						long startTimeMerge = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.mergeSort(shapes, (s1, s2) -> Double.compare(s2.calcVolume(), s1.calcVolume()));
 						long endTimeMerge = System.currentTimeMillis();
+						printByVolume(shapes);
 						System.out.println("Merge Sort took: " + (endTimeMerge - startTimeMerge) + " ms");
 						break;
 					case "q": // Quick sorting
 						long startTimeQuick = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.quickSort(shapes, (s1, s2) -> Double.compare(s2.calcVolume(), s1.calcVolume()));
 						long endTimeQuick = System.currentTimeMillis();
+						printByVolume(shapes);
 						System.out.println("Quick Sort took: " + (endTimeQuick - startTimeQuick) + " ms");
 						break;
 					case "h": // Heapsort
 						long startTimeHeap = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.heapSort(shapes, (s1, s2) -> Double.compare(s2.calcVolume(), s1.calcVolume()));
 						long endTimeHeap = System.currentTimeMillis();
+						printByVolume(shapes);
 						System.out.println("Heap Sort took: " + (endTimeHeap - startTimeHeap) + " ms");
 						break;
 					default:
@@ -256,38 +276,44 @@ public class AppDriver {
 				switch (sortType.toLowerCase()) {
 					case "b":
 						long startTimeBubble = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.bubbleSort(shapes, (s1, s2) -> Double.compare(s2.getHeight(), s1.getHeight()));
 						long endTimeBubble = System.currentTimeMillis();
+						printByHeight(shapes);
 						System.out.println("Bubble Sort took: " + (endTimeBubble - startTimeBubble) + " ms");
 						break;
 					case "s":
-						long startTimeSorting = System.currentTimeMillis();
-						// Insert sort logic here
-						long endTimeSorting = System.currentTimeMillis();
-						System.out.println("Sorting Sort took: " + (endTimeSorting - startTimeSorting) + " ms");
+						long startTimeSelection = System.currentTimeMillis();
+						Sorts.SelectionSort(shapes, (s1, s2) -> Double.compare(s2.getHeight(), s1.getHeight()));
+						long endTimeSelection = System.currentTimeMillis();
+						printByHeight(shapes);
+						System.out.println("Selection Sort took: " + (endTimeSelection - startTimeSelection) + " ms");
 						break;
 					case "i":
 						long startTimeInsertion = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.InsertionSort(shapes, (s1, s2) -> Double.compare(s2.getHeight(), s1.getHeight()));
 						long endTimeInsertion = System.currentTimeMillis();
+						printByHeight(shapes);
 						System.out.println("Insertion Sort took: " + (endTimeInsertion - startTimeInsertion) + " ms");
 						break;
 					case "m":
 						long startTimeMerge = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.mergeSort(shapes, (s1, s2) -> Double.compare(s2.getHeight(), s1.getHeight()));
 						long endTimeMerge = System.currentTimeMillis();
+						printByHeight(shapes);
 						System.out.println("Merge Sort took: " + (endTimeMerge - startTimeMerge) + " ms");
 						break;
 					case "q":
 						long startTimeQuick = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.quickSort(shapes, (s1, s2) -> Double.compare(s2.getHeight(), s1.getHeight()));
 						long endTimeQuick = System.currentTimeMillis();
+						printByHeight(shapes);
 						System.out.println("Quick Sort took: " + (endTimeQuick - startTimeQuick) + " ms");
 						break;
 					case "h":
 						long startTimeHeap = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.heapSort(shapes, (s1, s2) -> Double.compare(s2.getHeight(), s1.getHeight()));
 						long endTimeHeap = System.currentTimeMillis();
+						printByHeight(shapes);
 						System.out.println("Heap Sort took: " + (endTimeHeap - startTimeHeap) + " ms");
 						break;
 					default:
@@ -304,38 +330,44 @@ public class AppDriver {
 				switch (sortType.toLowerCase()) {
 					case "b":
 						long startTimeBubble = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.bubbleSort(shapes, (s1, s2) -> Double.compare(s2.calcBaseArea(), s1.calcBaseArea()));
 						long endTimeBubble = System.currentTimeMillis();
+						printByBaseArea(shapes);
 						System.out.println("Bubble Sort took: " + (endTimeBubble - startTimeBubble) + " ms");
 						break;
 					case "s":
 						long startTimeSorting = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.SelectionSort(shapes, (s1, s2) -> Double.compare(s2.calcBaseArea(), s1.calcBaseArea()));
 						long endTimeSorting = System.currentTimeMillis();
-						System.out.println("Sorting Sort took: " + (endTimeSorting - startTimeSorting) + " ms");
+						printByBaseArea(shapes);
+						System.out.println("Selection Sort took: " + (endTimeSorting - startTimeSorting) + " ms");
 						break;
 					case "i":
 						long startTimeInsertion = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.InsertionSort(shapes, (s1, s2) -> Double.compare(s2.calcBaseArea(), s1.calcBaseArea()));
 						long endTimeInsertion = System.currentTimeMillis();
+						printByBaseArea(shapes);
 						System.out.println("Insertion Sort took: " + (endTimeInsertion - startTimeInsertion) + " ms");
 						break;
 					case "m":
 						long startTimeMerge = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.mergeSort(shapes, (s1, s2) -> Double.compare(s2.calcBaseArea(), s1.calcBaseArea()));
 						long endTimeMerge = System.currentTimeMillis();
+						printByBaseArea(shapes);
 						System.out.println("Merge Sort took: " + (endTimeMerge - startTimeMerge) + " ms");
 						break;
 					case "q":
 						long startTimeQuick = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.quickSort(shapes, (s1, s2) -> Double.compare(s2.calcBaseArea(), s1.calcBaseArea()));
 						long endTimeQuick = System.currentTimeMillis();
+						printByBaseArea(shapes);
 						System.out.println("Quick Sort took: " + (endTimeQuick - startTimeQuick) + " ms");
 						break;
 					case "h":
 						long startTimeHeap = System.currentTimeMillis();
-						// Insert sort logic here
+						Sorts.heapSort(shapes, (s1, s2) -> Double.compare(s2.calcBaseArea(), s1.calcBaseArea()));
 						long endTimeHeap = System.currentTimeMillis();
+						printByBaseArea(shapes);
 						System.out.println("Heap Sort took: " + (endTimeHeap - startTimeHeap) + " ms");
 						break;
 					default:
