@@ -1,7 +1,72 @@
-For our 5th sorting algorithm we decided to use HeapSort. The main deciding factor to use this one is that it is quite different than the other algorithms that we had previously implemented. It can also be faster than quick sort in certain conditions. It's complexity is O(n log n) on both average and worse case scenarios. 
+For our 6th sorting algorithm we decided to use HeapSort. The main deciding factor to use this one is that it is quite different than the other algorithms that we had previously implemented. It can also be faster than quick sort in certain conditions. It's complexity is O(n log n) on both average and worse case scenarios. 
 
 How does HeapSort work? It uses trees to split the values in the array, similar to binary search. It then converts the values into "Heaps" and puts the largest value into the end of the array. It then reheaps all of the values and continue in this cycle until it is sorted. A "Heap" is a tree where the parent is always larger than or equal to its children. after the largest value is moved to the top of the heap, it is then swapped to the last position in the array.
 
 "Heapifying" is the term used to re-heap the tree to ensure that the largest value is on top of the tree. Because of the requirements for this project we will be putting the smallest value of the tree ontop, to ensure that the array ends up being sorted largest to smallest. 
 
-Another benefit this sorting method has over it's siblings is that it uses the origional array and does not need to copy the values at all. This makes is a good choice for large amounts of data that need to be sorted. 
+Another benefit this sorting method has over it's siblings is that it uses the original array and does not need to copy the values at all. This makes is a good choice for large amounts of data that need to be sorted. 
+
+Psudo code analysis: 
+
+Building Initial Max Heap:
+
+Starts from n/2 down to 1
+For each node at height h: O(h) operations
+Total nodes at height h: n/2^(h+1)
+Sum of operations: Σ(h * n/2^(h+1)) from h=0 to log n
+Mathematically simplifies to O(n)
+
+
+Heapify Operation:
+
+Basic operations per call (non-recursive): ~12 operations
+Maximum recursion depth: log n
+Total operations per Heapify: O(log n)
+
+
+Extraction Phase:
+
+n-1 extractions
+Each extraction:
+
+Swap: 3 operations
+Heapify: O(log n) operations
+
+
+Total: O(n log n)
+
+
+
+Time Complexity Analysis:
+
+Best Case: Ω(n log n)
+
+Still must process each element
+Height of heap is always log n
+
+
+Average Case: θ(n log n)
+
+Build Heap: O(n)
+n extractions × O(log n) per Heapify
+Total: O(n log n)
+
+
+Worst Case: O(n log n)
+
+Same as average case
+Heap operations maintain logarithmic bound
+
+
+
+Space Complexity:
+
+Extra space: O(1) for variables
+Recursion stack: O(log n)
+In-place sorting algorithm
+
+Key Operations Count:
+
+Comparisons: O(n log n)
+Swaps: O(n log n)
+Array accesses: O(n log n)
